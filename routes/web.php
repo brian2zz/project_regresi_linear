@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\datasetController;
+use App\Http\Controllers\forecastingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,13 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('pages.dashboard.index');
-});
+Route::get('/', [dashboardController::class, 'index']);
 
 Route::get('/dataset', [datasetController::class, 'index']);
 Route::post('/dataset', [datasetController::class, 'store']);
 Route::get('/get-data/{selectedValue}', [datasetController::class, 'getData']);
-Route::get('/forecasting', function () {
-    return view('pages.forecasting.index');
-});
+Route::get('/forecasting', [forecastingController::class, 'index']);
+Route::post('/forecasting', [forecastingController::class, 'forecast']);

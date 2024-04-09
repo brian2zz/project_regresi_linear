@@ -46,22 +46,7 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody id="table_body">
-                                                                {{-- @foreach ($data_input as $input)
-                                                                    <tr>
-                                                                        @if ($input->id_type == '1')
-                                                                            <td><input type="number" class="form-control"
-                                                                                    value="{{ $input->x }}"
-                                                                                    name="input_x[]"></td>
-                                                                            <td><input type="number" class="form-control"
-                                                                                    value="{{ $input->y }}"
-                                                                                    name="input_y[]"></td>
-                                                                            <td class="text-center"><button type="button"
-                                                                                    class="btn btn-danger btn-sm delete-row"
-                                                                                    onClick="delete_row(event)">Delete</button>
-                                                                            </td>
-                                                                        @endif
-                                                                    </tr>
-                                                                @endforeach --}}
+
                                                             </tbody>
                                                         </table>
                                                     </div>

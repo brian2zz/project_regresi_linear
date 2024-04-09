@@ -19,50 +19,76 @@
                             <div class="card">
                                 <div class="card-content collapse show">
                                     <div class="card-body d-flex justify-content-center">
-                                        <form action="#">
+                                        <form action="" method="post">
+                                            @csrf
                                             <div class="form-group">
                                                 <label for="contactinput5">Luas Lahan</label>
                                                 <input class="form-control border-primary" type="text"
-                                                    placeholder="Luas Lahan" id="contactinput5">
+                                                    placeholder="Luas Lahan" id="contactinput5" name="x_input" required>
                                             </div>
-                                            <div class="form-group">
+                                            <label for="input_type">Jenis</label>
+                                            <select class="form-control" id="input_type" name="jenis" required>
+                                                <option selected disabled value="">Tipe Input</option>
+                                                @foreach ($data_type as $type)
+                                                    <option value="{{ $type->id_type_input }}">{{ $type->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <div class="form-group my-2">
                                                 <button class="btn bg-success bg-darken-4 text-white">Prediksi</button>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
-                            <section id="configuration">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h4 class="card-title">Hasil Perhitungan</h4>
-                                                <a class="heading-elements-toggle"><i
-                                                        class="la la-ellipsis-v font-medium-3"></i></a>
-                                                <div class="heading-elements">
-                                                    <ul class="list-inline mb-0">
-                                                        <li>
-                                                            <a data-action="collapse"><i class="ft-minus"></i></a>
-                                                        </li>
-                                                        <li>
-                                                            <a data-action="expand"><i class="ft-maximize"></i></a>
-                                                        </li>
-                                                    </ul>
+                            @if ($forecasting)
+                                <section id="configuration">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h4 class="card-title">Hasil Perhitungan</h4>
+                                                    <a class="heading-elements-toggle"><i
+                                                            class="la la-ellipsis-v font-medium-3"></i></a>
+                                                    <div class="heading-elements">
+                                                        <ul class="list-inline mb-0">
+                                                            <li>
+                                                                <a data-action="collapse"><i class="ft-minus"></i></a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-action="expand"><i class="ft-maximize"></i></a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="card-content collapse show">
-                                                <div class="card-body card-dashboard">
-                                                    <h2>$$b = {N\sum(XY) - \sum X \sum Y \over N \sum X^2 - (\sum X)^2}$$
-                                                    </h2>
-                                                    <h2>$$a = {\sum Y - b(\sum X) \over n}$$</h2>
-                                                    <h2>$$Y = {a + bX}$$</h2>
+                                                <div class="card-content collapse">
+                                                    <div class="card-body card-dashboard">
+                                                        <h2>@php
+                                                            echo "\$\$b = {N\sum(XY) - \sum X \sum Y \over N \sum X^2 - (\sum X)^2}= { $n \cdot \sum( $total_xy ) - \sum $total_x \cdot \sum $total_y \over $n \cdot \sum $total_x ^2 - (\sum $total_x )^2} = $b \$\$";
+                                                        @endphp
+                                                        </h2>
+                                                        <h2>@php
+                                                            echo "$$ a = {\sum Y - b(\sum X) \over n} = {\sum $total_y - ($b(\sum $total_x)) \over $n} = $a $$";
+                                                        @endphp
+                                                        </h2>
+                                                        <h2></h2>
+                                                        <h2>@php
+                                                            echo "$$ Y = {a + bX} = $a + ($b * $X) = $hasil $$";
+                                                        @endphp</h2>
+                                                        <h2>
+                                                            <center><b>Maka hasil prediksi untuk jumlah pupuk
+                                                                    {{ $jenis }} yang
+                                                                    akan diterima petani adalah sebanyak {{ $hasil }}
+                                                                    kg
+                                                                    pupuk.</b></center>
+                                                        </h2>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </section>
+                                </section>
+                            @endif
                         </div>
                     </div>
                 </section>

@@ -11,11 +11,9 @@
         content="admin template, Chameleon admin template, dashboard template, gradient admin template, responsive admin template, webapp, eCommerce dashboard, analytic dashboard" />
     <meta name="author" content="ThemeSelect" />
     <title>
-        Dashboard Analytics - Chameleon Admin - Modern Bootstrap 4 WebApp &
-        Dashboard HTML Template + UI Kit
+        Regresi Linear
     </title>
-    <link rel="apple-touch-icon" href="app-assets/images/ico/apple-icon-120.png" />
-    <link rel="shortcut icon" type="image/x-icon" href="app-assets/images/ico/favicon.ico" />
+    <link rel="icon" type="image/png" href="../app-assets/images/ico/logo.png">
     <link
         href="https://fonts.googleapis.com/css?family=Muli:300,300i,400,400i,600,600i,700,700i%7CComfortaa:300,400,700"
         rel="stylesheet" />
@@ -60,7 +58,7 @@
     <script src="../app-assets/js/core/app.js" type="text/javascript"></script>
     <!-- END CHAMELEON  JS-->
     <!-- BEGIN PAGE LEVEL JS-->
-    
+
     <!-- END PAGE LEVEL JS-->
 </body>
 
