@@ -19,9 +19,18 @@
                 <a class="nav-link {{ Request::path() == '/' ? 'active' : '' }}" href="{{ url('/') }}"><i
                         class="ft-home"></i><span class="menu-title" data-i18n="">Dashboard</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link {{ Request::path() == 'dataset' ? 'active' : '' }}" href="{{ url('/dataset') }}"><i
-                        class="ft-pie-chart"></i><span class="menu-title" data-i18n="">Dataset</span></a>
+            <li class="nav-item"><a href="#"><i class="ft-pie-chart"></i><span class="menu-title"
+                        data-i18n="">Dataset</span></a>
+                <ul class="menu-content">
+                    <li class="{{ Request::path() == 'urea' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('/urea') }}"><span class="menu-title"
+                                data-i18n="">Urea</span></a>
+                    </li>
+                    <li class="{{ Request::path() == 'phonska' ? 'active' : '' }}">
+                        <a class="nav-link " href="{{ url('/phonska') }}"><span class="menu-title"
+                                data-i18n="">Phonska</span></a>
+                    </li>
+                </ul>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ Request::path() == 'forecasting' ? 'active' : '' }}"

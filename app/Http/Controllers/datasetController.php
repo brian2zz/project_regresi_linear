@@ -14,7 +14,13 @@ class datasetController extends Controller
     public function index()
     {
         $data_type = type_input::get();
-        return view('pages.dataset.index', ['data_type' => $data_type]);
+        return view('pages.dataset.index', ['data_type' => $data_type, 'type' => 1]);
+    }
+
+    public function phonska()
+    {
+        $data_type = type_input::get();
+        return view('pages.dataset.index', ['data_type' => $data_type, 'type' => 2]);
     }
 
     public function getData($selectedValue)
