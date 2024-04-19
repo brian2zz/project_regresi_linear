@@ -51,7 +51,7 @@ class datasetController extends Controller
                 'id_type' => $request->id_type,
             ]);
         }
-        return redirect('/dataset');
+        return redirect()->back();
     }
 
     /**

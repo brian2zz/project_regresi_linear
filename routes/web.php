@@ -19,8 +19,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [dashboardController::class, 'index']);
 
 Route::get('/urea', [datasetController::class, 'index']);
+Route::post('/urea', [datasetController::class, 'store']);
 Route::get('/phonska', [datasetController::class, 'phonska']);
-Route::post('/dataset', [datasetController::class, 'store']);
+Route::post('/phonska', [datasetController::class, 'store']);
 Route::get('/get-data/{selectedValue}', [datasetController::class, 'getData']);
 Route::get('/forecasting', [forecastingController::class, 'index']);
 Route::post('/forecasting', [forecastingController::class, 'forecast']);

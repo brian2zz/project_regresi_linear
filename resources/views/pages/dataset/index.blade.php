@@ -35,7 +35,7 @@
                                             <div class="col-sm-12 col-md-6">
                                                 <form action="" method="post">
                                                     @csrf
-                                                    <input type="hidden" name="id_type" value="1">
+                                                    <input type="hidden" name="id_type" value="{{ $type }}">
                                                     <div class="table-responsive">
                                                         <table id="table_input" class="table table-bordered">
                                                             <thead class="table-primary">
@@ -91,8 +91,8 @@
                         data.forEach(input => {
                             var newRow = document.createElement('tr');
                             newRow.innerHTML = `
-                                <td><input type="number" class="form-control" value="${input.x}" name="input_x[]"></td>
-                                <td><input type="number" class="form-control" value="${input.y}" name="input_y[]"></td>
+                                <td><input type="number" step="any" class="form-control" value="${input.x}" name="input_x[]"></td>
+                                <td><input type="number" step="any" class="form-control" value="${input.y}" name="input_y[]"></td>
                                 <td class="text-center"><button type="button" class="btn btn-danger btn-sm delete-row" onClick="delete_row(event)">Delete</button></td>
                             `;
                             tableBody.appendChild(newRow);
