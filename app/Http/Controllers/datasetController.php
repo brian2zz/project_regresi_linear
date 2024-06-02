@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\input;
+use App\Models\phonska;
 use App\Models\type_input;
+use App\Models\urea;
 use Illuminate\Http\Request;
+use Symfony\Component\Console\Input\Input as InputInput;
 
 class datasetController extends Controller
 {
@@ -25,7 +28,11 @@ class datasetController extends Controller
 
     public function getData($selectedValue)
     {
-        $data_input = Input::where('id_type', $selectedValue)->get();
+        if ($selectedValue == 1) {
+            $data_input = urea::all();
+        } else {
+            $data_input = phonska::all();
+        }
         return response()->json($data_input);
     }
 
@@ -42,14 +49,28 @@ class datasetController extends Controller
      */
     public function store(Request $request)
     {
-        input::where('id_type', $request->id_type)->delete();
-        foreach ($request->input_x as $key => $value) {
-            input::create([
-                'id_input' => $key + 1,
-                'x' => $value,
-                'y' => $request->input_y[$key],
-                'id_type' => $request->id_type,
-            ]);
+        $type = $request->id_type;
+
+        if ($type == 1) {
+            urea::truncate();
+            foreach ($request->input_x as $key => $value) {
+                urea::create([
+                    'id' => $key + 1,
+                    'x' => $value,
+                    'y' => $request->input_y[$key],
+
+                ]);
+            }
+        } else {
+            phonska::truncate();
+            foreach ($request->input_x as $key => $value) {
+                phonska::create([
+                    'id' => $key + 1,
+                    'x' => $value,
+                    'y' => $request->input_y[$key],
+
+                ]);
+            }
         }
         return redirect()->back();
     }

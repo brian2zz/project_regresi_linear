@@ -82,6 +82,13 @@
                                                                     kg
                                                                     pupuk.</b></center>
                                                         </h2>
+                                                        <h3 class="mt-2">
+                                                            Keterangan : <br><br>
+                                                            b = Rata-rata y <br>
+                                                            a = Rata-rata x <br>
+                                                            Y = Persamaan Linear Regresi <br>
+                                                        </h3>
+
                                                     </div>
                                                 </div>
                                             </div>

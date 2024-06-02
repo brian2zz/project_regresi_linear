@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\input;
+use App\Models\phonska;
 use App\Models\type_input;
+use App\Models\urea;
 use Illuminate\Http\Request;
 
 class forecastingController extends Controller
@@ -19,7 +21,12 @@ class forecastingController extends Controller
 
     public function forecast(Request $request)
     {
-        $data = input::where('id_type', $request->jenis)->get();
+        $type = $request->jenis;
+        if ($type == 1) {
+            $data = urea::all();
+        } else {
+            $data = phonska::all();
+        }
         $data_type = type_input::get();
         $jenis = type_input::where('id_type_input', $request->jenis)->first();
         $total_x = 0;

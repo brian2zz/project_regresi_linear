@@ -75,6 +75,7 @@
     <link rel="stylesheet" type="text/css" href="../app-assets/vendors/css/tables/datatable/datatables.min.css" />
 @endpush
 @push('scripts')
+    <script src="../app-assets/vendors/js/tables/datatable/datatables.min.js" type="text/javascript"></script>
     <script src="../app-assets/vendors/js/forms/repeater/jquery.repeater.min.js" type="text/javascript"></script>
     <script src="../app-assets/js/scripts/forms/form-repeater.js" type="text/javascript"></script>
 
@@ -155,8 +156,8 @@
             var newRow = document.createElement('tr');
 
             newRow.innerHTML = `
-                    <td><input type="number" class="form-control" name="input_x[]"></td>
-                    <td><input type="number" class="form-control" name="input_y[]"></td>
+                    <td><input type="number" step="any" class="form-control" name="input_x[]"></td>
+                    <td><input type="number" step="any" class="form-control" name="input_y[]"></td>
                     <td class="text-center"><button type="button" class="btn btn-danger btn-sm delete-row" onClick="delete_row(event)">Delete</button></td>
                 `;
 
