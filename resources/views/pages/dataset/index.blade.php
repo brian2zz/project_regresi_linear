@@ -172,7 +172,6 @@
             });
             $('#page_prev').click(function(e) {
                 let li = $(this).closest('li').hasClass('disabled');
-
                 if (!li && page < totalPage) {
                     page--;
                     data_input({{ $type }}, page);
