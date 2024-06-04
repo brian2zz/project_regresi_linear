@@ -23,6 +23,7 @@ Route::post('/urea', [datasetController::class, 'store']);
 Route::get('/phonska', [datasetController::class, 'phonska']);
 Route::post('/phonska', [datasetController::class, 'store']);
 Route::get('/get-data/{selectedValue}', [datasetController::class, 'getData']);
+Route::get('/get-data-all/{selectedValue}', [dashboardController::class, 'getDataAll']);
 Route::get('/get-ket', [datasetController::class, 'getKet']);
 Route::get('/forecasting', [forecastingController::class, 'index']);
 Route::post('/forecasting', [forecastingController::class, 'forecast']);

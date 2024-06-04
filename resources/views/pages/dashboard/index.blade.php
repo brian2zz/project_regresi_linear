@@ -80,7 +80,7 @@
 
             function getChart(filter) {
                 $.ajax({
-                    url: "{{ url('/get-data/') }}/" + filter,
+                    url: "{{ url('/get-data-all/') }}/" + filter,
                     type: 'GET',
                     dataType: 'json',
                     success: function(response) {
@@ -105,7 +105,7 @@
                 serverSide: false,
                 dom: "lrtip",
                 ajax: {
-                    url: "{{ url('/get-data/1') }}",
+                    url: "{{ url('/get-data-all/1') }}",
                     type: 'GET',
                     dataSrc: ''
                 },
@@ -184,7 +184,7 @@
                 ],
             });
             $('#input_type').on('change', function() {
-                var url = '/get-data/' + $(this).val();
+                var url = '/get-data-all/' + $(this).val();
                 getChart($(this).val());
                 $('#table_data').DataTable().ajax.url(url).load();
             });

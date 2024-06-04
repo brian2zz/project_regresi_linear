@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\input;
+use App\Models\phonska;
 use App\Models\type_input;
+use App\Models\urea;
 use Illuminate\Http\Request;
 
 class dashboardController extends Controller
@@ -16,7 +18,19 @@ class dashboardController extends Controller
         $data_type = type_input::get();
         return view('pages.dashboard.index', ['data_type' => $data_type]);
     }
+    public function getDataAll($selectedValue)
+    {
 
+        if ($selectedValue == 1) {
+            $data_input = urea::all();
+            $total = urea::count();
+        } else {
+            $data_input = phonska::all();
+            $total = phonska::count();
+        }
+
+        return response()->json($data_input);
+    }
     /**
      * Show the form for creating a new resource.
      */
