@@ -15,7 +15,7 @@
                 <section id="configuration">
 
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-8">
                             <div class="card">
                                 <div class="card-content collapse show">
                                     <div class="card-body">
@@ -32,7 +32,7 @@
                                             </div>
                                         </div> --}}
                                         <div id="form_input" class="row d-flex justify-content-center">
-                                            <div class="col-sm-12 col-md-6">
+                                            <div class="col-sm-12 col-md-12">
                                                 <form action="" method="post">
                                                     @csrf
                                                     <input type="hidden" name="id_type" value="{{ $type }}">
@@ -50,6 +50,17 @@
                                                             </tbody>
                                                         </table>
                                                     </div>
+                                                    <nav aria-label="Page navigation example">
+                                                        <ul class="pagination">
+                                                            <li class="page-item" id="li_prev"><a class="page-link"
+                                                                    href="#" id="page_prev">Previous</a></li>
+                                                            <li class="page-item disabled">
+                                                                <a class="page-link" href="#" id="current_page">1</a>
+                                                            </li>
+                                                            <li class="page-item" id="li_next"><a class="page-link"
+                                                                    href="#" id="page_next">Next</a></li>
+                                                        </ul>
+                                                    </nav>
                                                     <div class="d-flex justify-content-end mt-1">
                                                         <button onClick="addrow(event)" class="btn btn-primary mx-2">
                                                             Add
@@ -59,6 +70,26 @@
                                                         </button>
                                                     </div>
                                                 </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="card">
+                                <div class="card-content collapse show">
+                                    <div class="card-body">
+                                        <div class="row d-flex justify-content-center">
+                                            <div class="col-12">
+                                                <h3>
+                                                    Keterangan:
+                                                </h3>
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered" id="table_ket">
+
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -81,15 +112,41 @@
 
     <script>
         $(document).ready(function() {
-            data_input({{ $type }});
+            let page = 1;
+            let totalPage = 1;
+            data_input({{ $type }}, page);
+            data_ket({{ $type }});
 
-            function data_input(input_type) {
-                fetch('/get-data/' + input_type)
+            function data_ket(input_type) {
+                fetch(`/get-ket?jenis=${input_type}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        $('#table_ket').append(
+                            `<tr>
+                                <td>Rata - rata X</td>
+                                <td>${data.a}</td>
+                            </tr>
+                            <tr>
+                                <td>Rata - rata y</td>
+                                <td>${data.b}</td>
+                            </tr>
+                            <tr>
+                                <td>Persamaan</td>
+                                <td>${data.a} * ${data.b}</td>
+                            </tr>`
+                        )
+                    })
+                    .catch(error => console.error(error));
+            }
+
+            function data_input(input_type, page) {
+                fetch(`/get-data/${input_type}?page=${page}`)
                     .then(response => response.json())
                     .then(data => {
                         var tableBody = document.getElementById('table_body');
-                        tableBody.innerHTML = ''; // Clear previous table content
-                        data.forEach(input => {
+                        tableBody.innerHTML = '';
+                        data.data.forEach(input => {
                             var newRow = document.createElement('tr');
                             newRow.innerHTML = `
                                 <td><input type="number" step="any" class="form-control" value="${input.x}" name="input_x[]"></td>
@@ -98,8 +155,30 @@
                             `;
                             tableBody.appendChild(newRow);
                         });
+                        totalPage = data.totalPage;
+                        $('#current_page').text(page);
+                        $("#li_prev").toggleClass("disabled", data
+                            .previousPageUrl === null);
+                        $("#li_next").toggleClass("disabled", data.nextPageUrl ===
+                            null);
                     }).catch(error => console.error('Error:', error));
             }
+            $('#page_next').click(function(e) {
+                let li = $(this).closest('li').hasClass('disabled');
+                if (!li && page < totalPage) {
+                    page++;
+                    data_input({{ $type }}, page);
+                }
+            });
+            $('#page_prev').click(function(e) {
+                let li = $(this).closest('li').hasClass('disabled');
+
+                if (!li && page < totalPage) {
+                    page--;
+                    data_input({{ $type }}, page);
+                }
+            });
+
             document.getElementById('input_type').addEventListener('change', function() {
                 var selectedValue = this.value;
                 console.log(selectedValue);
@@ -125,7 +204,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="table_body">
-                                        
+
                                     </tbody>
                                 </table>
                             </div>

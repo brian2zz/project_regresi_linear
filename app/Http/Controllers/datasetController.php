@@ -26,14 +26,68 @@ class datasetController extends Controller
         return view('pages.dataset.index', ['data_type' => $data_type, 'type' => 2]);
     }
 
-    public function getData($selectedValue)
+    public function getData(Request $request, $selectedValue)
     {
+        $page = $request->query('page');
+        $limit = 10;
+        $skip = ($page - 1) * $limit;
+        // dd($page);
         if ($selectedValue == 1) {
-            $data_input = urea::all();
+            $data_input = urea::skip($skip)->take($limit)->get();
+            $total = urea::count();
         } else {
-            $data_input = phonska::all();
+            $data_input = phonska::skip($skip)->take($limit)->get();
+            $total = phonska::count();
         }
-        return response()->json($data_input);
+        $totalPages = ceil($total / $limit);
+        $previousPageUrl = ($page > 1) ? ($page - 1) : null;
+        $nextPageUrl = ($page < $totalPages) ?  ($page + 1) : null;
+        return response()->json([
+            'data' => $data_input,
+            'totalPage' => $totalPages,
+            'previousPageUrl' => $previousPageUrl,
+            'nextPageUrl' => $nextPageUrl,
+            'currentPage' => $page,
+        ]);
+    }
+
+    public function getKet(Request $request)
+    {
+        $type = $request->query('jenis');
+        if ($type == 1) {
+            $data = urea::all();
+        } else {
+            $data = phonska::all();
+        }
+        $data_type = type_input::get();
+        $jenis = type_input::where('id_type_input', $request->jenis)->first();
+        $total_x = 0;
+        $total_y = 0;
+        $total_xy = 0;
+        $total_x_kuadrat = 0;
+        $n = 0;
+        foreach ($data as $key => $value) {
+            $total_x += $value->x;
+            $total_y += $value->y;
+            $total_xy += $value->x * $value->y;
+            $total_x_kuadrat += pow($value->x, 2);
+            $n += 1;
+        }
+        $b = (($n * $total_xy) - ($total_x * $total_y)) / (($n * $total_x_kuadrat) - (pow($total_x, 2)));
+        $a = ($total_y - ($b * $total_x)) / $n;
+
+        return response()->json([
+            'total_x' => $total_x,
+            'total_y' => $total_y,
+            'total_xy' => $total_xy,
+            'total_x_kuadrat' => $total_x_kuadrat,
+            'n' => $n,
+            'b' => round($b, 2),
+            'a' => round($a, 2),
+            'data_type' => $data_type,
+            'forecasting' => true,
+            'jenis' => $jenis->name,
+        ]);
     }
 
     /**
