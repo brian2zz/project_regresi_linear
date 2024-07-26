@@ -8,6 +8,7 @@ use App\Models\type_input;
 use App\Models\urea;
 use Illuminate\Http\Request;
 use Symfony\Component\Console\Input\Input as InputInput;
+use Illuminate\Support\Facades\Log;
 
 class datasetController extends Controller
 {
@@ -103,31 +104,64 @@ class datasetController extends Controller
      */
     public function store(Request $request)
     {
-        $type = $request->id_type;
+        try {
+            ini_set('display_errors', 1);
+            ini_set('display_startup_errors', 1);
+            error_reporting(E_ALL);
 
-        if ($type == 1) {
-            urea::truncate();
-            foreach ($request->input_x as $key => $value) {
-                urea::create([
-                    'id' => $key + 1,
-                    'x' => $value,
-                    'y' => $request->input_y[$key],
+            $type = $request->input('type');
+            $updateData = $request->input('update_data');
 
-                ]);
+            if ($type == 1) {
+                foreach ($updateData as $data) {
+                    if ($data['status'] == 'update') {
+                        // Update data
+                        Urea::where('id', $data['id'])->update([
+                            'x' => $data['input_x'],
+                            'y' => $data['input_y'],
+                        ]);
+                    } elseif ($data['status'] == 'new') {
+                        // Create new data
+                        Urea::create([
+                            'x' => $data['input_x'],
+                            'y' => $data['input_y'],
+                        ]);
+                    } elseif ($data['status'] == 'delete') {
+                        // Delete data
+                        Urea::where('id', $data['id'])->delete();
+                    }
+                }
+            } else {
+                foreach ($updateData as $data) {
+                    if ($data['status'] == 'update') {
+                        // Update data
+                        Phonska::where('id', $data['id'])->update([
+                            'x' => $data['input_x'],
+                            'y' => $data['input_y'],
+                        ]);
+                    } elseif ($data['status'] == 'new') {
+                        // Create new data
+                        Phonska::create([
+                            'x' => $data['input_x'],
+                            'y' => $data['input_y'],
+                        ]);
+                    } elseif ($data['status'] == 'delete') {
+                        // Delete data
+                        Phonska::where('id', $data['id'])->delete();
+                    }
+                }
             }
-        } else {
-            phonska::truncate();
-            foreach ($request->input_x as $key => $value) {
-                phonska::create([
-                    'id' => $key + 1,
-                    'x' => $value,
-                    'y' => $request->input_y[$key],
 
-                ]);
-            }
+            return response()->json(['message' => 'Data successfully processed'], 200);
+        } catch (\Exception $e) {
+            // Log the error message
+            Log::error('Error processing data: ' . $e->getMessage(), ['exception' => $e]);
+
+            // Return a JSON response with error message
+            return response()->json(['message' => 'Error processing data', 'error' => $e->getMessage()], 500);
         }
-        return redirect()->back();
     }
+
 
     /**
      * Display the specified resource.

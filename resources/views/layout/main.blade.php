@@ -10,6 +10,7 @@
     <meta name="keywords"
         content="admin template, Chameleon admin template, dashboard template, gradient admin template, responsive admin template, webapp, eCommerce dashboard, analytic dashboard" />
     <meta name="author" content="ThemeSelect" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>
         Regresi Linear
     </title>
