@@ -19,6 +19,12 @@ class forecastingController extends Controller
         return view('pages.forecasting.index', ['data_type' => $data_type, 'forecasting' => false]);
     }
 
+    public function viewHistory()
+    {
+        $hasil = input::get();
+        return view('pages.history_forecasting.index', ['hasil' => $hasil, 'forecasting' => false]);
+    }
+
     public function forecast(Request $request)
     {
         $type = $request->jenis;
@@ -46,6 +52,13 @@ class forecastingController extends Controller
 
         $hasil = ($b * $request->x_input) + $a;
         $hasil = round($hasil, 2);
+
+        input::create([
+            'hasil' => $hasil,
+            'luas_lahan' => $request->x_input,
+            'id_type' => $request->jenis,
+        ]);
+
         return view('pages.forecasting.index', [
             'total_x' => $total_x,
             'total_y' => $total_y,
@@ -62,6 +75,25 @@ class forecastingController extends Controller
         ]);
 
         // dd($total_x, $total_y, $total_xy, $total_x_kuadrat, $n, $b, $a, $hasil);
+    }
+
+    public function hasilForecast(Request $request)
+    {
+        $page = $request->query('page');
+        $limit = 10;
+        $skip = ($page - 1) * $limit;
+        $data_history = input::with('type')->skip($skip)->take($limit)->get();
+        $total = input::count();
+        $totalPages = ceil($total / $limit);
+        $previousPageUrl = ($page > 1) ? ($page - 1) : null;
+        $nextPageUrl = ($page < $totalPages) ?  ($page + 1) : null;
+        return response()->json([
+            'data' => $data_history,
+            'totalPage' => $totalPages,
+            'previousPageUrl' => $previousPageUrl,
+            'nextPageUrl' => $nextPageUrl,
+            'currentPage' => $page,
+        ]);
     }
 
     /**

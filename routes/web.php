@@ -27,3 +27,5 @@ Route::get('/get-data-all/{selectedValue}', [dashboardController::class, 'getDat
 Route::get('/get-ket', [datasetController::class, 'getKet']);
 Route::get('/forecasting', [forecastingController::class, 'index']);
 Route::post('/forecasting', [forecastingController::class, 'forecast']);
+Route::get('/history-forecasting', [forecastingController::class, 'viewHistory']);
+Route::get('/get-history-forecasting', [forecastingController::class, 'hasilForecast']);

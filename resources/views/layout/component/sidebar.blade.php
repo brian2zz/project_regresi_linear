@@ -33,9 +33,18 @@
                 </ul>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Request::path() == 'forecasting' ? 'active' : '' }}"
-                    href="{{ url('/forecasting') }}"><i class="ft-bar-chart-2"></i><span class="menu-title"
+                <a href="#"><i class="ft-pie-chart"></i><span class="menu-title"
                         data-i18n="">Forecasting</span></a>
+                <ul class="menu-content">
+                    <li class="{{ Request::path() == 'forecasting' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('/forecasting') }}"><span class="menu-title"
+                                data-i18n="">Forecasting</span></a>
+                    </li>
+                    <li class="{{ Request::path() == 'history-forecasting' ? 'active' : '' }}">
+                        <a class="nav-link " href="{{ url('/history-forecasting') }}"><span class="menu-title"
+                                data-i18n="">History Forecasting</span></a>
+                    </li>
+                </ul>
             </li>
 
         </ul>
